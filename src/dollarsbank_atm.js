@@ -8,6 +8,10 @@ class DollarsBankAtm {
 
     }
 
+    login() {
+        
+    }
+
     checkAccountBalance() {
         print(`Your current balance is: $${this.currentAccount.getBalance()}`)
     }
@@ -27,6 +31,8 @@ class DollarsBankAtm {
     depositAmount() {
 
     }
+}
 
-
+module.exports = {
+    DollarsBankAtm
 }
