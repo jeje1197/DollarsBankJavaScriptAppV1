@@ -17,17 +17,27 @@ function runApplication() {
         print("2: Transaction")
         print("3: Exit")
 
-        const selectedOption = getInt(1, 3)
+        let selectedOption = -1
+        try {
+            selectedOption = getInt(1, 3)
+        } catch (error) {
+            colorPrint(Colors.Red, error)
+            continue;
+        }
+
         switch(selectedOption) {
             case 1:
-                print("----- Creating Account -----")
-                
+                ATM.createNewAccount()
+                break;
             case 2:
-                print("----- Log in to Account -----")
+                ATM.login()
+                break;
             case 3:
                 print("----- Exiting Account -----")
                 applicationRunning = false;
+                break;
             default:
+
         }
     }
     

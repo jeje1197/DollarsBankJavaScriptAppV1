@@ -3,24 +3,32 @@ const { setColor, Colors } = require('./printing')
 const prompt = require('prompt-sync')({sigint: true})
 
 const getInt = (min, max) => {
-    setColor(Colors.Green)
-    const value = prompt("")
-    const error = undefined
-    if (!value.match(/[0-9]*/)) {
-        error = `Expected integer value between values ${min} and ${max}`
+    const value = prompt(Colors.Green)
+    setColor(Colors.Reset)
+    if (!value.trim().match(/[0-9]*/) || value < min || value > max) {
+        throw `Expected integer value between values ${min} and ${max}`
     }
-    return (value, error)
+    return Number(value)
+}
+
+const getPin = () => {
+    const value = prompt(Colors.Green)
+    setColor(Colors.Reset)
+    if (!value.trim().match(/[0-9]{4}/)) {
+        throw `Expected 4-digit number in format xxxx`
+    }
+    return Number(value)
 }
 
 const getDouble = (min, max) => {
-    const value = prompt("")
-    const error = undefined
-    if (!value.match(/[0-9]*/)) {
-        error = `Expected decimal value between values ${min} and ${max}`
+    const value = prompt(Colors.Green)
+    setColor(Colors.Reset)
+    if (!value.trim().match(/[0-9]+(.[0-9]+)?/) || value < min || value > max) {
+        throw `Expected decimal value between values ${min} and ${max}`
     }
-    return (value, error)
+    return Number(value)
 }
 
 module.exports = {
-    getInt, getDouble
+    getInt, getDouble, getPin
 }
