@@ -86,7 +86,7 @@ function runTransaction() {
         if (getYN()) {
             continue;
         } else {
-            colorPrint(Colors.Yellow, "----- Successfully logged out -----")
+            colorPrint(Colors.Blue, "----- Successfully logged out -----")
             break;
         }
     }

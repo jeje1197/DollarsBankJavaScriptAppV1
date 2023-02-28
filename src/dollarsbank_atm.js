@@ -85,7 +85,7 @@ class DollarsBankAtm {
     }
 
     updatePIN() {
-        colorPrint(Colors.Blue, "----- Log in to Account -----")
+        colorPrint(Colors.Blue, "----- Update PIN -----")
         colorPrint(Colors.Blue, "Enter current PIN number: ")
         let enteredPin = -1
         try {
@@ -98,7 +98,7 @@ class DollarsBankAtm {
             return
         }
 
-        colorPrint(Colors.Blue, "Enter new PIN number: ")
+        colorPrint(Colors.Blue, "Enter new 4-digit PIN number: ")
         let newPin = -1
         try {
             newPin = getPin()
@@ -112,7 +112,7 @@ class DollarsBankAtm {
 
     withdrawAmount() {
         colorPrint(Colors.Blue, "----- Withdraw Amount -----")
-        colorPrint(Colors.Blue, "Enter amount to withdraw in format xx.xx")
+        colorPrint(Colors.Blue, "Enter amount to withdraw in format $xx.xx")
 
         let withdrawAmount = 0;
         try {
@@ -130,7 +130,7 @@ class DollarsBankAtm {
 
     depositAmount() {
         colorPrint(Colors.Blue, "----- Deposit Amount -----")
-        colorPrint(Colors.Blue, "Enter amount to deposit in format xx.xx")
+        colorPrint(Colors.Blue, "Enter amount to deposit in format $xx.xx")
 
         let depositAmount = 0;
         try {
