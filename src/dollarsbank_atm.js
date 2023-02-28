@@ -10,10 +10,10 @@ class DollarsBankAtm {
 
     createNewAccount() {
         colorPrint(Colors.Blue, "----- Create Account -----")
-        colorPrint(Colors.Blue, "Enter initial deposit amount in format $xx.xx")
+        colorPrint(Colors.Blue, "Enter initial deposit amount in format $xx.xx (min $5.00)")
         let initialDeposit = 0;
         try {
-            initialDeposit = getDouble(0, 100000)
+            initialDeposit = getDouble(5.00, 100000)
         } catch (error) {
             colorPrint(Colors.Red, error + " Try again!\n")
             return
@@ -116,7 +116,7 @@ class DollarsBankAtm {
 
         let withdrawAmount = 0;
         try {
-            withdrawAmount = getDouble(0, this.currentAccount.getBalance())
+            withdrawAmount = getDouble(0.01, this.currentAccount.getBalance())
         } catch (error) {
             colorPrint(Colors.Red, error + " Try again!\n")
             return

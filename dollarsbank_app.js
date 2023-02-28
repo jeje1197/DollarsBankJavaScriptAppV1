@@ -80,6 +80,8 @@ function runTransaction() {
             case 5:
                 ATM.depositAmount()
                 break;
+            case 6:
+                return;
             default:
         }
 
