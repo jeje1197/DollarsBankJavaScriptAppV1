@@ -10,7 +10,7 @@ class DollarsBankAtm {
 
     createNewAccount() {
         colorPrint(Colors.Blue, "----- Create Account -----")
-        colorPrint(Colors.Blue, "Enter initial deposit amount in format xx.xx")
+        colorPrint(Colors.Blue, "Enter initial deposit amount in format $xx.xx")
         let initialDeposit = 0;
         try {
             initialDeposit = getDouble(0, 100000)
@@ -71,7 +71,6 @@ class DollarsBankAtm {
     }
 
     logout() {
-        colorPrint(Colors.Blue, "----- Successfully logged out -----")
         this.currentAccount = undefined
         colorPrint(Colors.Yellow, "Please take your card.")
     }
@@ -124,8 +123,9 @@ class DollarsBankAtm {
         }
 
         this.currentAccount.setBalance(this.currentAccount.getBalance() - withdrawAmount)
+        this.currentAccount.addTransaction(`Withdrew $${withdrawAmount}`)
         colorPrint(Colors.Yellow, `Successfully withdrew $${withdrawAmount}` )
-        print(`Your current balance is: $${this.currentAccount.getBalance()}\n`)
+        print(`Your new balance is: $${this.currentAccount.getBalance()}\n`)
     }
 
     depositAmount() {
@@ -141,8 +141,9 @@ class DollarsBankAtm {
         }
 
         this.currentAccount.setBalance(this.currentAccount.getBalance() + depositAmount)
+        this.currentAccount.addTransaction(`Deposited $${depositAmount}`)
         colorPrint(Colors.Yellow, `Successfully deposited $${depositAmount}`)
-        print(`Your current balance is: $${this.currentAccount.getBalance()}\n`)
+        print(`Your new balance is: $${this.currentAccount.getBalance()}\n`)
     }
 }
 

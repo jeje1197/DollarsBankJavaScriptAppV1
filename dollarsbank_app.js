@@ -2,7 +2,7 @@ const { print, colorPrint, Colors } = require('./src/printing')
 const { DollarsBankAtm } = require('./src/dollarsbank_atm')
 const ATM = new DollarsBankAtm()
 
-const { getInt } = require('./src/option_handler');
+const { getInt, getYN } = require('./src/option_handler');
 
 runApplication()
 
@@ -32,6 +32,7 @@ function runApplication() {
             case 2:
                 if (ATM.login()) {
                     runTransaction()
+                    ATM.logout()
                     applicationRunning = false
                 }
                 break;
@@ -79,12 +80,15 @@ function runTransaction() {
             case 5:
                 ATM.depositAmount()
                 break;
-            case 6:
-                ATM.logout()
-                return
             default:
         }
+
+        if (getYN()) {
+            continue;
+        } else {
+            colorPrint(Colors.Yellow, "----- Successfully logged out -----")
+            break;
+        }
     }
-    
 }
 

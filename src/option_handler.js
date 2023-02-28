@@ -1,4 +1,4 @@
-const { setColor, Colors } = require('./printing')
+const { print, setColor, Colors, colorPrint } = require('./printing')
 
 const prompt = require('prompt-sync')({sigint: true})
 
@@ -29,6 +29,17 @@ const getDouble = (min, max) => {
     return Number(value)
 }
 
+const getYN = () => {
+    colorPrint(Colors.Blue, "Perform another transaction: (y/n)?")
+    const value = prompt(Colors.Green)
+    setColor(Colors.Reset)
+    if (!value.trim().match(/^(y|Y|n|N)$/)) {
+        print("")
+        return getYN()
+    }
+    return value === 'y' || value === 'Y'
+}
+
 module.exports = {
-    getInt, getDouble, getPin
+    getInt, getDouble, getPin, getYN
 }
