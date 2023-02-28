@@ -1,3 +1,5 @@
+const { print, colorPrint, Colors } = require("./printing");
+
 class Account {
     constructor(balance, pin) {
         this.accountNumber = Math.floor(Math.random() * 100000);
@@ -31,13 +33,19 @@ class Account {
     }
 
     addTransaction(message) {
-        this.transactions.push(`[${hashCode(new String(this.accountNumber))}]` + message + " on " + new Date())
+        this.transactions.push(`[${hashCode(new String(this.accountNumber))}-${this.transactions.length + 1}] ` + message + " on " + new Date())
     }
 
     printTransactions() {
+        colorPrint(Colors.Blue, "----- Recent Transactions -----")
+        if (this.transactions.length === 0) {
+            print("No transactions\n")
+        }
+
         for (let i = 0; i < 5 && i < this.transactions.length; i++) {
             console.log(this.transactions[this.transactions.length - 1 - i])
         }
+        print("")
     }
 }
 

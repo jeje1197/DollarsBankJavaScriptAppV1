@@ -1,6 +1,6 @@
 const { Account } = require("./customer_account")
-const { getInt, getDouble, getPin } = require("./option_handler")
-const { Colors, colorPrint } = require("./printing")
+const { getDouble, getPin } = require("./option_handler")
+const { Colors, colorPrint, print } = require("./printing")
 
 class DollarsBankAtm {
     constructor() {
@@ -9,43 +9,43 @@ class DollarsBankAtm {
     }
 
     createNewAccount() {
-        colorPrint(Colors.Blue, "----- Creating Account -----")
+        colorPrint(Colors.Blue, "----- Create Account -----")
         colorPrint(Colors.Blue, "Enter initial deposit amount in format xx.xx")
         let initialDeposit = 0;
         try {
-            getDouble(0, 100000)
+            initialDeposit = getDouble(0, 100000)
         } catch (error) {
-            colorPrint(Colors.Red, error + " Try again!")
+            colorPrint(Colors.Red, error + " Try again!\n")
             return
         }
 
         colorPrint(Colors.Blue, "Enter 4-digit secure PIN number: ")
         let securePin = 0;
         try {
-            securePin = getPin(0, 100000)
+            securePin = getPin()
         } catch (error) {
-            colorPrint(Colors.Red, error + " Try again!")
+            colorPrint(Colors.Red, "Incorrect format for pin. Try again!\n")
             return
         }
 
         colorPrint(Colors.Blue, "Verify PIN number: ")
         let verifiedPin = 0;
         try {
-            verifiedPin = getInt(0, 100000)
+            verifiedPin = getPin()
         } catch (error) {
-            colorPrint(Colors.Red, error + " Try again!")
+            colorPrint(Colors.Red, "Incorrect format for pin. Try again!\n")
             return
         }
 
         if (securePin !== verifiedPin) {
-            colorPrint(Colors.Red, "PIN numbers do not match.")
+            colorPrint(Colors.Red, "PIN numbers do not match.\n")
             return
         }
 
         const account = new Account(initialDeposit, securePin)
         account.addTransaction(`Deposited $${initialDeposit} into account`)
         this.listOfAccounts.push(account)
-        colorPrint(Colors.Yellow, "Account Created!!!")
+        colorPrint(Colors.Yellow, "Account Created!!!\n")
     }
 
     login() {
@@ -55,28 +55,30 @@ class DollarsBankAtm {
         try {
             enteredPin = getPin()
         } catch (error) {
-            colorPrint(Colors.Red, "Invalid account number or PIN.")
-            return
+            colorPrint(Colors.Red, "Invalid PIN.\n")
+            return false
         }
 
         for (let i = 0; i < this.listOfAccounts.length; i++) {
             if (enteredPin === this.listOfAccounts[i].getPin()) {
                 this.currentAccount = this.listOfAccounts[i]
-                colorPrint(Colors.Red, "Successfully logged in!")
-                return
+                colorPrint(Colors.Yellow, "Successfully logged in!\n")
+                return true
             }
         }
-
-        colorPrint(Colors.Yellow, "Invalid account number or PIN.")
+        colorPrint(Colors.Red, "Invalid PIN.\n")
+        return false
     }
 
     logout() {
+        colorPrint(Colors.Blue, "----- Successfully logged out -----")
         this.currentAccount = undefined
-        colorPrint(Colors.Yellow, "Successfully logged out!")
+        colorPrint(Colors.Yellow, "Please take your card.")
     }
 
     checkAccountBalance() {
-        print(`Your current balance is: $${this.currentAccount.getBalance()}`)
+        colorPrint(Colors.Blue, "----- Account Balance -----")
+        print(`Your current balance is: $${this.currentAccount.getBalance()}\n`)
     }
 
     printTransactions() {
@@ -84,15 +86,63 @@ class DollarsBankAtm {
     }
 
     updatePIN() {
+        colorPrint(Colors.Blue, "----- Log in to Account -----")
+        colorPrint(Colors.Blue, "Enter current PIN number: ")
+        let enteredPin = -1
+        try {
+            enteredPin = getPin()
+            if (enteredPin !== this.currentAccount.getPin()) {
+                throw 'Invalid PIN'
+            }
+        } catch (error) {
+            colorPrint(Colors.Red, error + "\n")
+            return
+        }
 
+        colorPrint(Colors.Blue, "Enter new PIN number: ")
+        let newPin = -1
+        try {
+            newPin = getPin()
+        } catch (error) {
+            colorPrint(Colors.Red, "Incorrect format for PIN.\n")
+            return
+        }
+
+        this.currentAccount.setPin(newPin)
     }
 
     withdrawAmount() {
+        colorPrint(Colors.Blue, "----- Withdraw Amount -----")
+        colorPrint(Colors.Blue, "Enter amount to withdraw in format xx.xx")
 
+        let withdrawAmount = 0;
+        try {
+            withdrawAmount = getDouble(0, this.currentAccount.getBalance())
+        } catch (error) {
+            colorPrint(Colors.Red, error + " Try again!\n")
+            return
+        }
+
+        this.currentAccount.setBalance(this.currentAccount.getBalance() - withdrawAmount)
+        colorPrint(Colors.Yellow, `Successfully withdrew $${withdrawAmount}` )
+        print(`Your current balance is: $${this.currentAccount.getBalance()}\n`)
     }
 
     depositAmount() {
+        colorPrint(Colors.Blue, "----- Deposit Amount -----")
+        colorPrint(Colors.Blue, "Enter amount to deposit in format xx.xx")
 
+        let depositAmount = 0;
+        try {
+            depositAmount = getDouble(0, 1000000)
+        } catch (error) {
+            colorPrint(Colors.Red, error + " Try again!\n")
+            return
+        }
+
+        this.currentAccount.setBalance(this.currentAccount.getBalance() + depositAmount)
+        colorPrint(Colors.Yellow, `Successfully deposited $${depositAmount}`)
+        print(`Your current balance is: $${this.currentAccount.getBalance()}\n`)
     }
 }
 
