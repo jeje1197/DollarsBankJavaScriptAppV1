@@ -24,7 +24,7 @@ const getDouble = (min, max) => {
     const value = prompt(Colors.Green + "$")
     setColor(Colors.Reset)
     if (!value.trim().match(/^[0-9]+(.[0-9]+)?$/) || value < min || value > max) {
-        throw `Expected decimal value between ${min} and ${max}`
+        throw `Expected number between $${min} and $${max}`
     }
     return Number(value)
 }

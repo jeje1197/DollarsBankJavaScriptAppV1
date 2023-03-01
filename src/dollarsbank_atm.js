@@ -1,11 +1,13 @@
 const { Account } = require("./customer_account")
 const { getDouble, getPin } = require("./option_handler")
 const { Colors, colorPrint, print } = require("./printing")
+const MAX_LOGIN_ATTEMPTS = 5;
 
 class DollarsBankAtm {
     constructor() {
         this.listOfAccounts = []
         this.currentAccount = undefined
+        this.numberOfLoginAttempts = 0;
     }
 
     createNewAccount() {
@@ -66,7 +68,12 @@ class DollarsBankAtm {
                 return true
             }
         }
+
         colorPrint(Colors.Red, "Invalid PIN.\n")
+        if (++this.numberOfLoginAttempts > MAX_LOGIN_ATTEMPTS) {
+            colorPrint(Colors.Yellow, "Failed too many login attempts. Try again in 24 hours or call the DOLLARSBANK Customer Service\nnumber.")
+            process.exit(0)
+        }
         return false
     }
 
@@ -95,6 +102,10 @@ class DollarsBankAtm {
             }
         } catch (error) {
             colorPrint(Colors.Red, error + "\n")
+            if (++this.numberOfLoginAttempts > MAX_LOGIN_ATTEMPTS) {
+                colorPrint(Colors.Yellow, "Failed too many login attempts. Try again in 24 hours or call the DOLLARSBANK Customer Service\nnumber.")
+                process.exit(0)
+            }
             return
         }
 
